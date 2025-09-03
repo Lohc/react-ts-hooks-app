@@ -17,12 +17,17 @@ export type TaskAction =
   | { type: 'REMOVE_TODO'; payload: number };
 
 export const getTaskInitialState = (): TaskState => {
-  return {
-    todos: [],
-    length: 0,
-    completed: 0,
-    pending: 0,
-  };
+  const previousState = localStorage.getItem('tasks-state');
+
+  if (!previousState) {
+    return {
+      todos: [],
+      length: 0,
+      completed: 0,
+      pending: 0,
+    };
+  }
+  return JSON.parse(previousState);
 };
 
 export const taskReducer = (state: TaskState, action: TaskAction): TaskState => {
@@ -34,43 +39,40 @@ export const taskReducer = (state: TaskState, action: TaskAction): TaskState => 
         text: action.payload.trim(),
         completed: false,
       };
+      const updatedTodos = [...state.todos, newTodo];
       return {
         ...state,
-        todos: [...state.todos, newTodo],
-        length: state.length + 1,
-        pending: state.pending + 1,
+        todos: updatedTodos,
+        length: updatedTodos.length,
+        completed: updatedTodos.filter((t) => t.completed).length,
+        pending: updatedTodos.filter((t) => t.completed).length,
       };
     }
 
     case 'TOGGLE_TODO': {
-      let isCompleted = false;
+      const updatedTodos = state.todos.map((todo) =>
+        todo.id === action.payload ? { ...todo, completed: !todo.completed } : todo
+      );
       return {
         ...state,
-        todos: state.todos.map((todo) => {
-          if (todo.id === action.payload) {
-            isCompleted = !todo.completed;
-            return { ...todo, completed: isCompleted };
-          }
-          return todo;
-        }),
-        completed: isCompleted ? state.completed + 1 : state.completed - 1,
-        pending: isCompleted ? state.pending - 1 : state.pending + 1,
+        todos: updatedTodos,
+        completed: updatedTodos.filter((t) => t.completed).length,
+        pending: updatedTodos.filter((t) => !t.completed).length,
       };
     }
 
     case 'REMOVE_TODO': {
-      let isCompleted = false;
+      const updatedTodos = state.todos.filter((todo) => {
+        if (todo.id !== action.payload) {
+          return todo;
+        }
+      });
       return {
         ...state,
-        todos: state.todos.filter((todo) => {
-          if (todo.id !== action.payload) {
-            isCompleted = todo.completed;
-            return todo;
-          }
-        }),
+        todos: updatedTodos,
         length: state.length - 1,
-        completed: isCompleted ? state.completed - 1 : state.completed,
-        pending: !isCompleted ? state.pending - 1 : state.pending,
+        completed: updatedTodos.filter((t) => t.completed).length,
+        pending: updatedTodos.filter((t) => !t.completed).length,
       };
     }
 
