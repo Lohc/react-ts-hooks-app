@@ -16,7 +16,7 @@ export type ScrambleWordsAction =
   | { type: 'SET_GUESS'; payload: string }
   | { type: 'EVALUATE_GUESS' }
   | { type: 'SKIP_WORD' }
-  | { type: 'NEW_GAME' };
+  | { type: 'NEW_GAME'; payload: ScrambleWordsState };
 
 const GAME_WORDS = [
   'REACT',
@@ -116,7 +116,7 @@ export const scrambleWordsReducer = (
     }
 
     case 'NEW_GAME':
-      return getInitialState();
+      return action.payload;
 
     default:
       return state;

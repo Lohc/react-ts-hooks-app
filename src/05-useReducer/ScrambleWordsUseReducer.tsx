@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -21,7 +21,7 @@ export const ScrambleWordsUseReducer = () => {
   };
 
   const handlePlayAgain = () => {
-    dispatch({ type: 'NEW_GAME' });
+    dispatch({ type: 'NEW_GAME', payload: getInitialState() });
   };
 
   const {
@@ -37,6 +37,15 @@ export const ScrambleWordsUseReducer = () => {
     totalWords,
     words,
   } = state;
+
+  useEffect(() => {
+    if (points === 0) return;
+    conffeti({
+      particleCount: 100,
+      spread: 120,
+      origin: { y: 0.6 },
+    });
+  }, [points]);
 
   //! Si ya no hay palabras para jugar, se muestra el mensaje de fin de juego
   if (words.length === 0) {
