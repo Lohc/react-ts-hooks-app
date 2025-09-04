@@ -43,33 +43,45 @@ function todoReducer(state: TodoState, action: TodoAction): TodoState {
   switch (action.type) {
     case 'ADD_TODO':
       // Pista: agrega un nuevo todo con id: state.nextId, text: action.payload, completed: false
-      return state; // Reemplaza esto
+      return {
+        ...state,
+        todos: [...state.todos, { id: state.nextId, text: action.payload, completed: false }],
+        nextId: state.nextId + 1,
+      };
     case 'TOGGLE_TODO':
       // Pista: cambia el completed del todo con id === action.payload
-      return state; // Reemplaza esto
+      return {
+        ...state,
+        todos: state.todos.map((t) =>
+          t.id === action.payload ? { ...t, completed: !t.completed } : t
+        ),
+      };
     case 'DELETE_TODO':
       // Pista: filtra los todos para excluir el que tiene id === action.payload
-      return state; // Reemplaza esto
+      return {
+        ...state,
+        todos: state.todos.filter((t) => t.id !== action.payload),
+      };
     default:
       return state;
   }
 }
 
 // TODO: Implementa el reducer para contador
-function counterReducer(state: { count: number }, action: CounterAction) {
+function counterReducer(state: { count: number }, action: CounterAction): { count: number } {
   switch (action.type) {
     case 'INCREMENT':
       // Pista: retorna { count: state.count + 1 }
-      return state; // Reemplaza esto
+      return { count: state.count + 1 }; // Reemplaza esto
     case 'DECREMENT':
       // Pista: retorna { count: state.count - 1 }
-      return state; // Reemplaza esto
+      return { count: state.count - 1 }; // Reemplaza esto
     case 'RESET':
       // Pista: retorna { count: 0 }
-      return state; // Reemplaza esto
+      return { count: 0 }; // Reemplaza esto
     case 'SET_VALUE':
       // Pista: retorna { count: action.payload }
-      return state; // Reemplaza esto
+      return { count: action.payload }; // Reemplaza esto
     default:
       return state;
   }
@@ -84,15 +96,18 @@ export function UseReducerExample() {
   const addTodo = (text: string) => {
     if (text.trim()) {
       // Pista: dispatch({ type: 'ADD_TODO', payload: text })
+      todoDispatch({ type: 'ADD_TODO', payload: text });
     }
   };
 
   const toggleTodo = (id: number) => {
     // Pista: dispatch({ type: 'TOGGLE_TODO', payload: id })
+    todoDispatch({ type: 'TOGGLE_TODO', payload: id });
   };
 
   const deleteTodo = (id: number) => {
     // Pista: dispatch({ type: 'DELETE_TODO', payload: id })
+    todoDispatch({ type: 'DELETE_TODO', payload: id });
   };
 
   return (

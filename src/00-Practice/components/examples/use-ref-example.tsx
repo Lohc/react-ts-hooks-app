@@ -15,16 +15,20 @@ export function UseRefExample() {
   // TODO: Implementa esta función para enfocar el input
   const focusInput = () => {
     // Pista: usa inputRef.current?.focus()
+    inputRef.current?.focus();
   };
 
   // TODO: Implementa esta función para incrementar el contador sin re-renderizar
   const incrementWithoutRerender = () => {
     // Pista: incrementa countRef.current y muestra el valor con alert()
+    countRef.current = countRef.current + 1;
+    alert(countRef.current.valueOf());
   };
 
   // TODO: Implementa esta función para forzar un re-render
   const forceRerender = () => {
     // Pista: usa setRenderCount con el valor actual + 1
+    setRenderCount((a) => a + 1);
   };
 
   return (
