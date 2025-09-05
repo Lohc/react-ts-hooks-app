@@ -65,7 +65,6 @@ export const InstagromApp = () => {
 
   return (
     <div className="bg-slate-700 h-screen flex flex-col items-center justify-center">
-      <Toaster richColors />
       {/* Post de ejemplo */}
       <div className="flex flex-col items-center justify-center bg-gray-300 rounded-t-3xl p-4 w-[500px]">
         <img

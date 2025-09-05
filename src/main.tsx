@@ -1,5 +1,6 @@
-import { StrictMode, Suspense } from 'react';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { Toaster } from 'sonner';
 
 // import { HooksApp } from './HooksApp';
 // import ReactHooksTutorial from './00-Practice/app/page';
@@ -14,13 +15,15 @@ import { createRoot } from 'react-dom/client';
 // import { MemoHook } from './06-memos/MemoHook';
 // import { MemoCounter } from './06-memos/MemoCounter';
 // import { InstagromApp } from './07-useOptimistic/InstagromApp';
-import { ClientInformation } from './08-use-suspense/ClientInformation';
-import { getUserAction } from './08-use-suspense/api/get-user.action';
+// import { ClientInformation } from './08-use-suspense/ClientInformation';
+// import { getUserAction } from './08-use-suspense/api/get-user.action';
+import { ProfessionalApp } from './09-useContext/ProfessionalApp';
 
 import './index.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+    <Toaster richColors />
     {/* <HooksApp /> */}
     {/* <TrafficLight /> */}
     {/* <TrafficLightWithEffect /> */}
@@ -33,7 +36,7 @@ createRoot(document.getElementById('root')!).render(
     {/* <MemoHook /> */}
     {/* <MemoCounter /> */}
     {/* <InstagromApp /> */}
-    <Suspense
+    {/* <Suspense
       fallback={
         <div className="bg-gradient flex flex-col">
           <h1 className="text-2xl">Cagando...</h1>
@@ -41,6 +44,7 @@ createRoot(document.getElementById('root')!).render(
       }
     >
       <ClientInformation getUser={getUserAction(100)} />
-    </Suspense>
+    </Suspense> */}
+    <ProfessionalApp />
   </StrictMode>
 );
